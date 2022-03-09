@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: John's Blog
 subtitle: ""
 description: ""
 keywords:
-author: John Doe
-language: en
+author: John
+language: zh-CN
 timezone: ""
 
 # URL
@@ -41,7 +41,10 @@ external_link:
     exclude: ""
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
+marked:
+    prependRoot: true
+    postAsset: true
 relative_link: false
 future: true
 highlight:

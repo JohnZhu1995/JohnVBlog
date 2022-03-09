@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>electron02--调用DLL | John&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="引言本文使用 node-ffi&#x2F;ffi-napi 调用 C&#x2F;C++编写的动态链接库(即 dll)，以实现一些硬件功能。 ffi node-ffi 是一个用于使用纯 JavaScript 加载和调用动态库的 Node.js 插件。它可以用来在不编写任何 C++代码的情况下创建与本地 DLL 库的绑定。同时它负责处理跨 JavaScript 和 C 的类型转换。     node-ffi 连接了 C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="electron02--调用DLL">
+<meta property="og:url" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/index.html">
+<meta property="og:site_name" content="John&#39;s Blog">
+<meta property="og:description" content="引言本文使用 node-ffi&#x2F;ffi-napi 调用 C&#x2F;C++编写的动态链接库(即 dll)，以实现一些硬件功能。 ffi node-ffi 是一个用于使用纯 JavaScript 加载和调用动态库的 Node.js 插件。它可以用来在不编写任何 C++代码的情况下创建与本地 DLL 库的绑定。同时它负责处理跨 JavaScript 和 C 的类型转换。     node-ffi 连接了 C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/01.png">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/02.png">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/04.png">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/03.png">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/05.png">
+<meta property="article:published_time" content="2022-03-09T02:14:47.000Z">
+<meta property="article:modified_time" content="2022-03-09T02:57:18.398Z">
+<meta property="article:author" content="John">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/01.png">
+  
+    <link rel="alternate" href="/JohnChu.github.io/atom.xml" title="John&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/JohnChu.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/JohnChu.github.io/" id="logo">John&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/JohnChu.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/JohnChu.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/JohnChu.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://johnzhu1995.github.io/JohnChu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-electron02-调用DLL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/" class="article-date">
+  <time datetime="2022-03-09T02:14:47.000Z" itemprop="datePublished">2022-03-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      electron02--调用DLL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文使用 node-ffi/ffi-napi 调用 C/C++编写的动态链接库(即 dll)，以实现一些硬件功能。</p>
+<h2 id="ffi"><a href="#ffi" class="headerlink" title="ffi"></a>ffi</h2><blockquote>
+<p>node-ffi 是一个用于使用纯 JavaScript 加载和调用动态库的 Node.js 插件。它可以用来在不编写任何 C++代码的情况下创建与本地 DLL 库的绑定。同时它负责处理跨 JavaScript 和 C 的类型转换。</p>
+</blockquote>
+<ul>
+<li>  node-ffi 连接了 C 代码和 JS 代码, 通过内存共享来完成调用, 而内部又通过 ref,ref-array 和 ref-struct 来实现类型转换.</li>
+</ul>
+<h2 id="安装-ffi"><a href="#安装-ffi" class="headerlink" title="安装 ffi"></a>安装 ffi</h2><blockquote>
+<p>ffi-napi 是作者(node-ffi-napi)根据 node-ffi 修改而发布到 npm 仓库的, 可以直接通过 npm 安装, 支持 node.js 12 和 electron 高版本.</p>
+</blockquote>
+<ol>
+<li><p>部署 node.js+electron 环境<br>请自行参照相关教程</p>
+</li>
+<li><p>安装 ffi-napi</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add ffi-napi</span><br></pre></td></tr></table></figure></li>
+<li><p>使用 ffi<br>在<code>main.js</code>中添加以下代码：</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ffi = <span class="built_in">require</span>(<span class="string">&quot;ffi-napi&quot;</span>);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 先定义一个函数, 用来在窗口中显示字符</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">String</span>&#125; <span class="variable">text</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">*</span>&#125; <span class="variable">none</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">showText</span>(<span class="params">text</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Buffer</span>(text, <span class="string">&quot;ucs2&quot;</span>).<span class="title function_">toString</span>(<span class="string">&quot;binary&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 通过ffi加载user32.dll</span></span><br><span class="line"><span class="keyword">const</span> myUser32 = <span class="keyword">new</span> ffi.<span class="title class_">Library</span>(<span class="string">&quot;user32&quot;</span>, &#123;</span><br><span class="line">    <span class="comment">// 声明这个dll中的一个函数</span></span><br><span class="line">    <span class="title class_">MessageBoxW</span>: [</span><br><span class="line">        <span class="string">&quot;int32&quot;</span>,</span><br><span class="line">        [<span class="string">&quot;int32&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;int32&quot;</span>], <span class="comment">// 用json的格式罗列其返回类型和参数类型</span></span><br><span class="line">    ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用user32.dll中的MessageBoxW()函数, 弹出一个对话框</span></span><br><span class="line"><span class="keyword">const</span> isOk = myUser32.<span class="title class_">MessageBoxW</span>(</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_">showText</span>(<span class="string">&quot;I am Node.JS!&quot;</span>),</span><br><span class="line">    <span class="title function_">showText</span>(<span class="string">&quot;Hello, World!&quot;</span>),</span><br><span class="line">    <span class="number">1</span></span><br><span class="line">);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(isOk);</span><br></pre></td></tr></table></figure>
+
+<p> 启动程序：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br></pre></td></tr></table></figure>
+
+<p> 启动成功！出现了弹窗：<br> <img src="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/01.png" alt="01"></p>
+</li>
+</ol>
+<h2 id="自己生成一个-dll"><a href="#自己生成一个-dll" class="headerlink" title="自己生成一个 dll"></a>自己生成一个 dll</h2><ol start="0">
+<li>开始之前</li>
+</ol>
+<ul>
+<li><p>注意：</p>
+<blockquote>
+<p>ffi 只接受纯 C 函数, 确切的说, 是按照 C 标准编译的函数</p>
+</blockquote>
+<p>  下面来说说具体的原因:</p>
+<p>  在通过 ffi 引入 dll 的时候, 我们是这么声明的:</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myUser32 = <span class="keyword">new</span> ffi.<span class="title class_">Library</span>(<span class="string">&quot;user32&quot;</span>, &#123;</span><br><span class="line">    <span class="comment">// 声明这个dll中的一个函数</span></span><br><span class="line">    <span class="title class_">MessageBoxW</span>: [</span><br><span class="line">        <span class="string">&quot;int32&quot;</span>,</span><br><span class="line">        [<span class="string">&quot;int32&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;int32&quot;</span>], <span class="comment">// 用json的格式罗列其返回类型和参数类型</span></span><br><span class="line">    ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>  在<code>user32.dll</code>中, 寻找一个名字叫<code>MessageBoxW</code>的函数.</p>
+<p>  但是, C 和 C++的函数命名是不同的, 我指的是编译后的函数名字</p>
+<p>  对于 C, 函数<code>int func(int n)</code>会被编译为类似<code>_func</code>这样的名字.</p>
+<p>  对于 C++, 函数<code>int func(int n)</code>会被编译为类似<code>?func@@YAHH@Z</code>这样的名字.</p>
+<p>  同样是 C++, 函数<code>int func(int double)</code>会被编译为类似<code>?func@@YAHN@Z</code>这样的名字(和上一个不同).</p>
+<p>  名字中包含了较多信息, 比如:</p>
+<blockquote>
+<p>参数的入栈方式<br>返回值的类型<br>参数的类型和数量</p>
+</blockquote>
+<p>  这是因为 C++有<code>函数重载</code>特性, 虽然函数命名是<code>func</code>, 但<code>int func(int n)</code>和<code>int func(int double)</code>完全是两个不同的函数, 编译器通过给它们赋予不同的名字来区分它们.ffi 在 dll 中查找函数名字的时候, <strong>是用 C 风格来查找的</strong>.</p>
+<ul>
+<li>  所以,如果你的函数使用 C++编译的, ffl 在这个 dll 中就找不到这个函数, 会出现错误<code>LINK 126</code>!</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>创建工程</p>
+<p> 使用 VS 创建一个 C++ <strong>空项目</strong>即可. 项目名成以 myAddDll 为例（当然, 你也可以直接创建动态链接库 DLL）:</p>
+<p> <img src="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/02.png" alt="02"></p>
+</li>
+<li><p>函数声明<br> 创建一个 myAdd.h 头文件，并声明一个<code>funAdd</code>函数：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    __declspec(dllexport) <span class="function"><span class="type">int</span> <span class="title">funAdd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <code>extern &quot;C&quot;</code>的含义:</p>
+<blockquote>
+<p>被 extern “C” 修饰的变量和函数是按照 C 语言方式编译和链接的</p>
+</blockquote>
+<p> <code>__declspec(dllexport)</code>的含义:</p>
+<blockquote>
+<p>__declspec(dllexport)用于 Windows 中的动态库中，声明导出函数、类、对象等供外面调用，省略给出.def 文件。即将函数、类等声明为导出函数，供其它程序调用，作为动态库的对外接口函数、类等。</p>
+</blockquote>
+</li>
+<li><p>函数定义</p>
+<p> 创建一个 myAdd.cpp 源文件，定义一个<code>funAdd</code>函数：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;myAdd.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">funAdd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">return</span> (a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 创建完 myAdd.h 和 myAdd.cpp 如下图所示：<br> <img src="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/04.png" alt="04"></p>
+</li>
+<li><p>修改配置类型为动态库.dll<br> 在项目配置中, 选择生成动态库.dll(确保你配置了 Debug 和 Release, 同时确保你在 x64 环境下生成):<br> <img src="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/03.png" alt="03"></p>
+</li>
+<li><p>生成 dll<br> 右键项目选择生成即可, 生成的 myAddDll.dll 位于项目目录下的 x64/Debug 中(根据你项目的配置去找, x64 或 x86, Debug 或 Release)。</p>
+</li>
+<li><p>测试 dll<br> 将 myAddDll.dll 拷贝至你的 electron 项目的根目录下的 dll 文件夹内<br> 在<code>main.js</code>中添加如下代码:</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ffi = <span class="built_in">require</span>(<span class="string">&quot;ffi-napi&quot;</span>); <span class="comment">// 如果前面已经定义过ffi, 就注释掉这一行</span></span><br><span class="line"><span class="comment">// 通过ffi加载myAddDll.dll</span></span><br><span class="line"><span class="keyword">const</span> myAddDll = <span class="keyword">new</span> ffi.<span class="title class_">Library</span>(<span class="string">&quot;/myDLL&quot;</span>, &#123;</span><br><span class="line">    <span class="comment">// 声明这个dll中的一个函数</span></span><br><span class="line">    <span class="attr">funAdd</span>: [</span><br><span class="line">        <span class="string">&quot;int&quot;</span>,</span><br><span class="line">        [<span class="string">&quot;int&quot;</span>, <span class="string">&quot;int&quot;</span>], <span class="comment">// 用json的格式罗列其返回类型和参数类型</span></span><br><span class="line">    ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用函数, 参数1和2, 将返回值直接打印出来, 预计为3</span></span><br><span class="line"><span class="keyword">const</span> result = myAddDll.<span class="title function_">funAdd</span>(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`the result of 1 + 2 is: `</span> + result);</span><br></pre></td></tr></table></figure>
+
+<p> 启动程序：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br></pre></td></tr></table></figure>
+
+<p> 启动成功！shell 里打印出了相应的结果：<br> <img src="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/05.png" alt="05"></p>
+</li>
+</ol>
+<ul>
+<li><p>上面代码中，<code>ffi.Library</code>里第二个参数是一个 Json 结构，key 为方法名，value 为一个数组，数组的第一个参数是<strong>返回值类型</strong>，第二个参数是包含所有<strong>传参类型</strong>的子数组，如：如果返回值是空的话，那数组第一个参数应该是 void。如果返回值或者参数类型不知道是什么类型就写 void*。要使用 ffi 中的类型表示 C/C++语言中的类型，对照表如下：</p>
+<blockquote>
+<p>基本类型<br>int8–Signed 8-bit Integer<br>uint8–Unsigned 8-bit Integer<br>int16–Signed 16-bit Integer<br>uint16–Unsigned 16-bit Integer<br>int32–Signed 32-bit Integer<br>uint32–Unsigned 32-bit Integer<br>int64–Signed 64-bit Integer<br>uint64–Unsigned 64-bit Integer<br>float–Single Precision Floating Point Number (float)<br>double–Double Precision Floating Point Number (double)<br>pointer–Pointer Type<br>string–Null-Terminated String (char *)<br>常见的 C 语言类型<br>byte–unsigned char<br>char–char<br>uchar–unsigned char<br>short–short<br>ushort–unsigned short<br>int–int<br>uint–unsigned int<br>long–long<br>ulong–unsigned long<br>longlong–long<br>ulonglong–unsigned long long<br>size_t–platform-dependent, usually pointer size</p>
+</blockquote>
+<p>  如果是指针类型，可以引入<code>ref-napi</code>和<code>ref-array</code>模块来表示</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ref = <span class="built_in">require</span>(<span class="string">&quot;ref-napi&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> refArray = <span class="built_in">require</span>(<span class="string">&quot;ref-array&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> intPtr = ref.<span class="title function_">refType</span>(<span class="string">&quot;int&quot;</span>); <span class="comment">//int*类型</span></span><br><span class="line"><span class="keyword">var</span> charPtr = <span class="string">&quot;hello&quot;</span>; <span class="comment">//char*可以用string表示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果是个字符数组</span></span><br><span class="line"><span class="keyword">var</span> refArray = <span class="built_in">require</span>(<span class="string">&quot;ref-array&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> charPtrPtr = <span class="title function_">refArray</span>(ref.<span class="property">types</span>.<span class="property">char</span>, <span class="number">50</span>); <span class="comment">//50个大小的数组</span></span><br></pre></td></tr></table></figure>
+
+<p>  假如参数或者返回值是一个结构体，那就需要借助<code>ref-struct</code>模块来表示</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ref = <span class="built_in">require</span>(<span class="string">&quot;ref-napi&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">FFI</span> = <span class="built_in">require</span>(<span class="string">&quot;ffi-napi&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Struct</span> = <span class="built_in">require</span>(<span class="string">&quot;ref-struct&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">TimeVal</span> = <span class="title class_">Struct</span>(&#123;</span><br><span class="line">    <span class="attr">tv_sec</span>: <span class="string">&quot;long&quot;</span>,</span><br><span class="line">    <span class="attr">tv_usec</span>: <span class="string">&quot;long&quot;</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">TimeValPtr</span> = ref.<span class="title function_">refType</span>(<span class="title class_">TimeVal</span>);</span><br><span class="line"><span class="keyword">var</span> lib = <span class="keyword">new</span> <span class="variable constant_">FFI</span>.<span class="title class_">Library</span>(<span class="literal">null</span>, &#123;</span><br><span class="line">    <span class="attr">gettimeofday</span>: [<span class="string">&quot;int&quot;</span>, [<span class="title class_">TimeValPtr</span>, <span class="string">&quot;pointer&quot;</span>]],</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> tv = <span class="keyword">new</span> <span class="title class_">TimeVal</span>();</span><br><span class="line">lib.<span class="title function_">gettimeofday</span>(tv.<span class="title function_">ref</span>(), <span class="literal">null</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Seconds since epoch: &quot;</span> + tv.<span class="property">tv_sec</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="可能出现的错误"><a href="#可能出现的错误" class="headerlink" title="可能出现的错误"></a>可能出现的错误</h2><blockquote>
+<p>错误 1：LINK 126</p>
+</blockquote>
+<p>  这个错误, 意味者 electron 无法使用你的 dll.</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myAddDll = <span class="keyword">new</span> ffi.<span class="title class_">Library</span>(<span class="string">&#x27;/myDLL&#x27;</span>, &#123;</span><br></pre></td></tr></table></figure>
+
+<p>  在上面这行代码中，<code>ffi.Library</code>的第一个参数, 不光指定了 dll 的名字, 还指定了 dll 的路径.<br>  出现 LINK 126 有两个常见原因:</p>
+<ol>
+<li>没有这个<strong>目录</strong>, 或这个目录下没有 <code>myDLL.dll</code></li>
+<li><code>myDLL.dll</code> 还<strong>依赖了其他</strong>的一些 dll, 但是 electron 无法找到这个 dll.</li>
+</ol>
+<blockquote>
+<p>错误 2：LINK 127</p>
+</blockquote>
+<p>  出现 LINK 127 的可能原因:</p>
+<ol>
+<li>electron 找到了你的 dll, 但是在 dll 中<strong>找不到</strong>你声名的函数(funAdd)。这通常是由于<strong>函数名字错误</strong>, 或者是<strong>返回值类型</strong>/<strong>参数的个数</strong>及<strong>类型</strong>不一致导致的.</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://johnzhu1995.github.io/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/" data-id="cl0izco2h0000m8tcagp456d3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/JohnChu.github.io/2022/02/17/first-post-from-john/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">first post from john</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/02/">二月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/03/09/electron02-%E8%B0%83%E7%94%A8DLL/">electron02--调用DLL</a>
+          </li>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/02/17/first-post-from-john/">first post from john</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/JohnChu.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/JohnChu.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/JohnChu.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/JohnChu.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/JohnChu.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
