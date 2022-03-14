@@ -4,6 +4,8 @@ date: 2022-03-09 10:14:47
 tags:
 ---
 
+# electron 学习--调用 .dll
+
 ## 引言
 
 本文使用 node-ffi/ffi-napi 调用 C/C++编写的动态链接库(即 dll)，以实现一些硬件功能。
@@ -66,6 +68,7 @@ tags:
     ```
 
     启动成功！出现了弹窗：
+
     ![01](01.png)
 
 ## 自己生成一个 dll
@@ -112,7 +115,7 @@ tags:
 
 1.  创建工程
 
-    使用 VS 创建一个 C++ **空项目**即可. 项目名成以 myAddDll 为例（当然, 你也可以直接创建动态链接库 DLL）:
+    使用 VS 创建一个 C++ **空项目**即可. 项目名成以 myDLL 为例（当然, 你也可以直接创建动态链接库 DLL）:
 
     ![02](02.png)
 
@@ -147,23 +150,25 @@ tags:
     ```
 
     创建完 myAdd.h 和 myAdd.cpp 如下图所示：
+
     ![04](04.png)
 
 4.  修改配置类型为动态库.dll
     在项目配置中, 选择生成动态库.dll(确保你配置了 Debug 和 Release, 同时确保你在 x64 环境下生成):
+
     ![03](03.png)
 
 5.  生成 dll
-    右键项目选择生成即可, 生成的 myAddDll.dll 位于项目目录下的 x64/Debug 中(根据你项目的配置去找, x64 或 x86, Debug 或 Release)。
+    右键项目选择生成即可, 生成的 myDLL.dll 位于项目目录下的 x64/Debug 中(根据你项目的配置去找, x64 或 x86, Debug 或 Release)。
 
 6.  测试 dll
-    将 myAddDll.dll 拷贝至你的 electron 项目的根目录下的 dll 文件夹内
+    将 myDLL.dll 拷贝至你的 electron 项目的根目录下的 dll 文件夹内
     在`main.js`中添加如下代码:
 
     ```js
     const ffi = require("ffi-napi"); // 如果前面已经定义过ffi, 就注释掉这一行
-    // 通过ffi加载myAddDll.dll
-    const myAddDll = new ffi.Library("/myDLL", {
+    // myDLL.dll
+    const myDLL = new ffi.Library("/myDLL", {
         // 声明这个dll中的一个函数
         funAdd: [
             "int",
@@ -172,7 +177,7 @@ tags:
     });
 
     // 调用函数, 参数1和2, 将返回值直接打印出来, 预计为3
-    const result = myAddDll.funAdd(1, 2);
+    const result = myDLL.funAdd(1, 2);
     console.log(`the result of 1 + 2 is: ` + result);
     ```
 
@@ -183,6 +188,7 @@ tags:
     ```
 
     启动成功！shell 里打印出了相应的结果：
+
     ![05](05.png)
 
 -   上面代码中，`ffi.Library`里第二个参数是一个 Json 结构，key 为方法名，value 为一个数组，数组的第一个参数是**返回值类型**，第二个参数是包含所有**传参类型**的子数组，如：如果返回值是空的话，那数组第一个参数应该是 void。如果返回值或者参数类型不知道是什么类型就写 void\*。要使用 ffi 中的类型表示 C/C++语言中的类型，对照表如下：
@@ -255,7 +261,7 @@ tags:
     这个错误, 意味者 electron 无法使用你的 dll.
 
     ```js
-    const myAddDll = new ffi.Library('/myDLL', {
+    const myDLL = new ffi.Library('/myDLL', {
     ```
 
     在上面这行代码中，`ffi.Library`的第一个参数, 不光指定了 dll 的名字, 还指定了 dll 的路径.
