@@ -275,3 +275,8 @@ tags:
     出现 LINK 127 的可能原因:
 
     1. electron 找到了你的 dll, 但是在 dll 中**找不到**你声名的函数(funAdd)。这通常是由于**函数名字错误**, 或者是**返回值类型**/**参数的个数**及**类型**不一致导致的.
+
+## References
+
+1. https://www.cnblogs.com/silenzio/p/11606389.html
+2. https://segmentfault.com/a/1190000019402908?utm_source=tag-newest
