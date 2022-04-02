@@ -254,6 +254,8 @@ tags:
     console.log("Seconds since epoch: " + tv.tv_sec);
     ```
 
+    **注：更多 ref 插件的方法详见 ref 文档： https://tootallnate.github.io/ref/**
+
     ## 可能出现的错误
 
     > 错误 1：LINK 126
