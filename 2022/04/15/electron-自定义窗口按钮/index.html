@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>electron--自定义窗口按钮 | John&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="引言本文介绍如何基于 electron+vue 实现自定义的窗口最大化、最小化和关闭按钮，以实现自定义的样式。 关闭原始按钮在 background.js 中创建窗口的时候设置如 frame 为 false，关闭原始按钮边框 12345const win &#x3D; new BrowserWindow(&amp;#123;    width: 1200,    height: 800,    frame: fal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="electron--自定义窗口按钮">
+<meta property="og:url" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/index.html">
+<meta property="og:site_name" content="John&#39;s Blog">
+<meta property="og:description" content="引言本文介绍如何基于 electron+vue 实现自定义的窗口最大化、最小化和关闭按钮，以实现自定义的样式。 关闭原始按钮在 background.js 中创建窗口的时候设置如 frame 为 false，关闭原始按钮边框 12345const win &#x3D; new BrowserWindow(&amp;#123;    width: 1200,    height: 800,    frame: fal">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/1.png">
+<meta property="og:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/2.png">
+<meta property="article:published_time" content="2022-04-15T05:33:11.000Z">
+<meta property="article:modified_time" content="2022-04-19T01:25:57.276Z">
+<meta property="article:author" content="John">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://johnzhu1995.github.io/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/1.png">
+  
+    <link rel="alternate" href="/JohnChu.github.io/atom.xml" title="John&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/JohnChu.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/JohnChu.github.io/" id="logo">John&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/JohnChu.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/JohnChu.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/JohnChu.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://johnzhu1995.github.io/JohnChu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-electron-自定义窗口按钮" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/" class="article-date">
+  <time datetime="2022-04-15T05:33:11.000Z" itemprop="datePublished">2022-04-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      electron--自定义窗口按钮
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文介绍如何基于 electron+vue 实现自定义的窗口最大化、最小化和关闭按钮，以实现自定义的样式。</p>
+<h2 id="关闭原始按钮"><a href="#关闭原始按钮" class="headerlink" title="关闭原始按钮"></a>关闭原始按钮</h2><p>在 background.js 中创建窗口的时候设置如 frame 为 false，关闭原始按钮边框</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> win = <span class="keyword">new</span> <span class="title class_">BrowserWindow</span>(&#123;</span><br><span class="line">    <span class="attr">width</span>: <span class="number">1200</span>,</span><br><span class="line">    <span class="attr">height</span>: <span class="number">800</span>,</span><br><span class="line">    <span class="attr">frame</span>: <span class="literal">false</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义按钮和窗口"><a href="#自定义按钮和窗口" class="headerlink" title="自定义按钮和窗口"></a>自定义按钮和窗口</h2><ul>
+<li>封装一个自定义按钮组件</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">class</span>=<span class="string">&quot;titlebtn&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">:style</span>=<span class="string">&quot;style&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        @<span class="attr">click</span>=<span class="string">&quot;click&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">v-html</span>=<span class="string">&quot;btnContent&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="comment">// const &#123; ipcRenderer: ipc &#125; = require(&#x27;electron&#x27;) //不能在renderer中直接引用node的组件</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">const</span> ipcRenderer = <span class="variable language_">window</span>.<span class="property">electronAPI</span> <span class="comment">//通过window来传递</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">const</span> style = &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">min</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">backgroundColor</span>: <span class="string">&#x27;#f4f9ff&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">right</span>: <span class="string">&#x27;110px&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">max</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">backgroundColor</span>: <span class="string">&#x27;#f4f9ff&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">right</span>: <span class="string">&#x27;60px&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">close</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">backgroundColor</span>: <span class="string">&#x27;#f4f9ff&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">right</span>: <span class="string">&#x27;10px&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">var</span> btn = &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">min</span>: <span class="string">&#x27;----&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">max</span>: <span class="string">&#x27;&lt;img class=&quot;icon max&quot; alt=&quot;max&quot; src=&quot;./img/max-icon.png&quot; /&gt;&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">close</span>: <span class="string">&#x27;&lt;img class=&quot;icon max&quot; alt=&quot;max&quot; src=&quot;./img/close.png&quot; /&gt;&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">name</span>: <span class="string">&#x27;TitleButton&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">props</span>: [<span class="string">&#x27;type&#x27;</span>],</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">return</span> &#123; <span class="attr">btnContent</span>: <span class="string">&#x27;&#x27;</span> &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="variable language_">this</span>.<span class="title function_">getBtn</span>()</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">created</span>(<span class="params"></span>) &#123;&#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">computed</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">style</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">return</span> style[<span class="variable language_">this</span>.<span class="property">type</span>]</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">getBtn</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="variable language_">this</span>.<span class="property">btnContent</span> = btn[<span class="variable language_">this</span>.<span class="property">type</span>]</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">click</span>: <span class="keyword">async</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">const</span> isMaxed = <span class="keyword">await</span> ipcRenderer.<span class="title function_">titleBtnClick</span>(<span class="variable language_">this</span>.<span class="property">type</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">if</span> (isMaxed === <span class="number">1</span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                btn.<span class="property">max</span> =</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    <span class="string">&#x27;&lt;img class=&quot;icon max&quot; alt=&quot;max&quot; src=&quot;./img/max-icon2.png&quot; /&gt;&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                <span class="variable language_">this</span>.<span class="title function_">getBtn</span>()</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isMaxed === <span class="number">0</span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                btn.<span class="property">max</span> =</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    <span class="string">&#x27;&lt;img class=&quot;icon max&quot; alt=&quot;max&quot; src=&quot;./img/max-icon.png&quot; /&gt;&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                <span class="variable language_">this</span>.<span class="title function_">getBtn</span>()</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">&quot;scss&quot;</span> <span class="attr">scoped</span>&gt;</span><span class="language-css"></span></span></span><br><span class="line"><span class="language-css"><span class="language-xml"><span class="selector-class">.titlebtn</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">width</span>: <span class="number">40px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">height</span>: <span class="number">30px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">position</span>: absolute;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">line-height</span>: <span class="number">30px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">letter-spacing</span>: -<span class="number">2px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">color</span>: <span class="number">#007eff</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">display</span>: flex;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">align-items</span>: center;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">justify-content</span>: center;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    -webkit-app-region: no-drag; //禁止窗口按钮拖动</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml"><span class="selector-class">.titlebtn</span><span class="selector-pseudo">:hover</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.3</span>);</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>封装一个自定义边框，引入上面的按钮，放在右上角</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;myTitle&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;leftWrap&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;Vue logo&quot;</span> <span class="attr">src</span>=<span class="string">&quot;../../assets/img/logo.png&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">span</span>&gt;</span>虹膜门禁<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;rightWrap&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">title-button</span> <span class="attr">type</span>=<span class="string">&quot;min&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">title-button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">title-button</span> <span class="attr">type</span>=<span class="string">&quot;max&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">title-button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">title-button</span> <span class="attr">type</span>=<span class="string">&quot;close&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">title-button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">import</span> <span class="title class_">TitleButton</span> <span class="keyword">from</span> <span class="string">&#x27;./TitleButton.vue&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">name</span>: <span class="string">&#x27;myTitle&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">components</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="title class_">TitleButton</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">&quot;scss&quot;</span> <span class="attr">scoped</span>&gt;</span><span class="language-css"></span></span></span><br><span class="line"><span class="language-css"><span class="language-xml"><span class="selector-class">.myTitle</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">display</span>: flex;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">justify-content</span>: space-between;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">width</span>: <span class="number">100%</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">height</span>: <span class="number">30px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="attribute">background-color</span>: <span class="number">#f4f9ff</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    -webkit-app-region: drag; //无框窗口可拖动</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="selector-class">.leftWrap</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">display</span>: flex;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">align-items</span>: center;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="selector-class">.icon</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">            <span class="attribute">height</span>: <span class="number">18px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">            <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">10px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="selector-tag">span</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">            <span class="attribute">font-size</span>: <span class="number">16px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">            <span class="attribute">line-height</span>: <span class="number">18px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">            <span class="attribute">letter-spacing</span>: <span class="number">2px</span>;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    &#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    <span class="selector-class">.rightWrap</span> &#123;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">display</span>: flex;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">align-items</span>: flex-end;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">        <span class="attribute">position</span>: relative;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">    &#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-css"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通过主进程实现按钮功能"><a href="#通过主进程实现按钮功能" class="headerlink" title="通过主进程实现按钮功能"></a>通过主进程实现按钮功能</h2><p>上面的步骤已经实现了自定义窗口边框和按钮的外观，现在就需要使用 ipc 进行渲染进程和主进程之间的通信以实现按钮的功能。</p>
+<ul>
+<li>在渲染页面的预加载文件 preload.js 中引入 ipcrenderer，并创建调用函数，实现从渲染进程与主进程的通信。</li>
+</ul>
+<blockquote>
+<p>根据 electron 官方文档（<a target="_blank" rel="noopener" href="https://www.electronjs.org/zh/docs/latest/tutorial/ipc">https://www.electronjs.org/zh/docs/latest/tutorial/ipc</a> )， 两进程之间的 ipc 通信是通过开发者自定义的 channel(通道)，根据使用场景的不同，主要有单向(ipc.send,ipc.on)、双向(ipc.invoke,ipc.handle)两种，后者主进程接收到信息之后还可以向渲染进程返回信息。</p>
+</blockquote>
+<p>为了根据返回的窗口状态切换自定义最大化按钮的图标，我们选择后者，在渲染进程使用 ipc.invoke 发消息,在主进程使用 ipc.handle 处理并返回窗口的状态。</p>
+<p><strong>preload.js:</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; contextBridge, ipcRenderer &#125; = <span class="built_in">require</span>(<span class="string">&quot;electron&quot;</span>);</span><br><span class="line"></span><br><span class="line">contextBridge.<span class="title function_">exposeInMainWorld</span>(<span class="string">&quot;electronAPI&quot;</span>, &#123;</span><br><span class="line">    <span class="attr">titleBtnClick</span>: <span class="function">(<span class="params">type</span>) =&gt;</span> ipcRenderer.<span class="title function_">invoke</span>(<span class="string">&quot;title-channel&quot;</span>, type),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>在渲染进程中调用 ipcrenderer 函数:</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isMaxed = <span class="keyword">await</span> ipcRenderer.<span class="title function_">titleBtnClick</span>(<span class="variable language_">this</span>.<span class="property">type</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>在主进程处理:</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//监听title-channel通道，处理自定义窗口按钮</span></span><br><span class="line">ipcMain.<span class="title function_">handle</span>(<span class="string">&quot;title-channel&quot;</span>, handleTitle);</span><br><span class="line"></span><br><span class="line"><span class="comment">//回调，处理最小化、最大化、关闭按钮</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">handleTitle</span>(<span class="params">event, type</span>) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;min&quot;</span>:</span><br><span class="line">            <span class="keyword">await</span> win.<span class="title function_">minimize</span>();</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;max&quot;</span>:</span><br><span class="line">            <span class="keyword">if</span> (win.<span class="title function_">isMaximized</span>()) &#123;</span><br><span class="line">                <span class="keyword">await</span> win.<span class="title function_">restore</span>();</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">await</span> win.<span class="title function_">maximize</span>();</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;close&quot;</span>:</span><br><span class="line">            <span class="keyword">await</span> win.<span class="title function_">close</span>();</span><br><span class="line">            <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">        <span class="attr">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h2><p><img src="/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/1.png" alt="01"></p>
+<p><img src="/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/2.png" alt="02"></p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/catgray/article/details/95523443">https://blog.csdn.net/catgray/article/details/95523443</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://johnzhu1995.github.io/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/" data-id="cl3e4mr480003soue3o2v19xj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/JohnChu.github.io/2022/04/29/tailwind%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          tailwind快速入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/JohnChu.github.io/2022/04/01/An-introduction-to-HTML-CSS-JS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">An introduction to HTML-CSS-JS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/JohnChu.github.io/archives/2022/02/">二月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/05/20/Sass%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Sass使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/04/29/tailwind%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">tailwind快速入门</a>
+          </li>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/04/15/electron-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%8C%89%E9%92%AE/">electron--自定义窗口按钮</a>
+          </li>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/04/01/An-introduction-to-HTML-CSS-JS/">An introduction to HTML-CSS-JS</a>
+          </li>
+        
+          <li>
+            <a href="/JohnChu.github.io/2022/03/25/Bitwise-operation-on-integers-basics-of-C/">Bitwise operation on integers--basics of C</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/JohnChu.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/JohnChu.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/JohnChu.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/JohnChu.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/JohnChu.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
