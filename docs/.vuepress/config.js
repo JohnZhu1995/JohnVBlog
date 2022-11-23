@@ -1,13 +1,13 @@
 module.exports = {
-    title: "John Zhu",
+    title: "恩聪小站",
     description: "John's blog",
     head: [
-        ["link", { ref: "author", href: "/favicon.ico" }],
+        ["link", { rel: "icon", href: "/favicon.ico" }],
         ["meta", { name: "author", content: "johnzhu" }],
         ["meta", { name: "keywords", content: "vuepress文档 vuepress blog" }],
     ],
     themeConfig: {
-        logo: "/assets/img/ironman.png",
+        logo: "/assets/img/apple-touch-icon.png",
         nav: [
             { text: "Home", link: "/" },
             { text: "About", link: "/about.html" },

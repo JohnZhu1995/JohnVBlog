@@ -1,6 +1,6 @@
 ---
 home: true
-# heroImage: /hero.png
+heroImage: /assets/img/apple-touch-icon.png
 heroText: Hero Title
 tagline: Hero subtitle
 actionText: Get Started →
