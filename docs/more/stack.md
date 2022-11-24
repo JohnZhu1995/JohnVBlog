@@ -11,6 +11,7 @@
 -   [element-plus](https://element-plus.org/zh-CN/)
 -   [jest](https://jestjs.io/)
 -   [JWT](https://jwt.io/)
+-   [Qt](https://doc.qt.io/qt-5/)
 -   [react](https://reactjs.org/)
 -   [sass](https://sass-lang.com/)
 -   [tailwind](https://tailwindcss.com/)
