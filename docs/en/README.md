@@ -4,7 +4,7 @@ heroImage: /assets/img/apple-touch-icon.png
 heroText: Grace to J&H
 tagline: Grace for You & Me
 actionText: Start
-actionLink: /en/about/
+actionLink: /en/frontend/javascript/
 footer: Copyright © 2022-present John Zhu
 ---
 

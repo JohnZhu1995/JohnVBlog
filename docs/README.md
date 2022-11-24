@@ -4,7 +4,7 @@ heroImage: /assets/img/apple-touch-icon.png
 heroText: 恩典小站
 tagline: Grace for You & Me
 actionText: 开始浏览
-actionLink: /about/
+actionLink: /frontend/javascript/
 footer: Copyright © 2022-present John Zhu
 ---
 
