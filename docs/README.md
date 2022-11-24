@@ -1,18 +1,11 @@
 ---
 home: true
 heroImage: /assets/img/apple-touch-icon.png
-heroText: Hero Title
-tagline: Hero subtitle
-actionText: Get Started →
-actionLink: /guide/
-features:
-    - title: Simplicity First
-      details: Minimal setup with markdown-centered project structure helps you focus on writing.
-    - title: Vue-Powered
-      details: Enjoy the dev experience of Vue + webpack, use Vue components in markdown, and develop custom themes with Vue.
-    - title: Performant
-      details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
-footer: MIT Licensed | Copyright © 2018-present Evan You
+heroText: 恩典小站
+tagline: Grace for You & Me
+actionText: 开始浏览
+actionLink: /about/
+footer: Copyright © 2022-present John Zhu
 ---
 
-# Hello VuePress
+> 欢迎来到恩典小站，这里收藏着一些将来可能有用的博客、文档、笔记、资源 。😸

@@ -1,0 +1,4 @@
+<template><blockquote>
+<p>欢迎来到恩典小站，这里收藏着一些将来可能有用的博客、文档、笔记、资源 。😸</p>
+</blockquote>
+</template>

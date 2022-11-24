@@ -7,9 +7,10 @@
     "scripts": {
         "docs:dev": "vuepress dev docs",
         "docs:build": "vuepress build docs",
-        "deploy":"powershell ./deploy.sh"
+        "deploy": "powershell ./deploy.sh"
     },
-    "devDependencies": {
+    "devDependencies": {},
+    "dependencies": {
         "vuepress": "^1.9.7"
     }
 }
