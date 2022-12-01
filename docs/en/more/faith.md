@@ -14,6 +14,7 @@
 
 -   [保罗事工的年代研究](https://dwellcc.org/learning/essays/chronological-study-pauls-ministry)
 -   [TULIP-约翰派博谈五要义](https://www.desiringgod.org/articles/what-we-believe-about-the-five-points-of-calvinism)
+-   [大卫的金诗-陈希曾](http://www.jiduzhijia.com/book/cxz/03/index.htm)
 
 <script>
 export default {
@@ -59,6 +60,11 @@ export default {
           name: "圣经简报站",
           desc: "查经PPT、视频网站，林清晖/许娴(灵恩派)建立",
           link: "http://www.sjppt.net/index-s.htm#gsc.tab=0"
+        },
+        {
+          name: "圣光圣经地理",
+          desc: "圣经地理信息资料库",
+          link: "http://biblegeography.holylight.org.tw/"
         }
       ],
       organizations: [

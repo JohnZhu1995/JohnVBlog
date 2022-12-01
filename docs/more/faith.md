@@ -41,6 +41,11 @@ export default {
           link: "https://freehebrew.online/zh/home-chinese/"
         },
         {
+          name: "Daily dose of Greek",
+          desc: "免费希腊语课程，包括线上视频",
+          link: "https://dailydoseofgreek.com/"
+        },
+        {
           name: "Sermonaudio",
           desc: "讲道录音",
           link: "https://www.sermonaudio.com/main.asp"

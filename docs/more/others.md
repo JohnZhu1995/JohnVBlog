@@ -6,6 +6,10 @@
 
 <CardsGrid :sites="sports" />
 
+## 历史
+
+<CardsGrid :sites="history" />
+
 ## 自由职业
 
 <CardsGrid :sites="freelance" />
@@ -37,6 +41,13 @@ export default {
           desc: "baseball博物馆",
           link: "https://www.baseball-reference.com/"
         }
+      ],
+      history:[
+        {
+          name: "全历史",
+          desc: "全历史。画作、古籍、帝国、人物、战争、古迹",
+          link: "https://www.allhistory.com"
+        },
       ]
     }
   }

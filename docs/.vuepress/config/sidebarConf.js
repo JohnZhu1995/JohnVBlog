@@ -39,17 +39,15 @@ module.exports = {
     //     ]
     //   }
     // ],
-    // "/backend/mongodb/": [
-    //   {
-    //     "text": "MONGODB",
-    //     "title": "MONGODB",
-    //     "collapsable": false,
-    //     "sidebarDepth": 1,
-    //     "children": [
-    //       "README.md"
-    //     ]
-    //   }
-    // ],
+    "/backend/mongodb/": [
+        {
+            text: "MONGODB",
+            title: "MONGODB",
+            collapsable: false,
+            sidebarDepth: 1,
+            children: [""],
+        },
+    ],
     // "/backend/mysql/": [
     //   {
     //     "text": "MYSQL",
@@ -104,20 +102,15 @@ module.exports = {
     //     ]
     //   }
     // ],
-    // "/backend/nodejs/": [
-    //   {
-    //     "text": "NODEJS",
-    //     "title": "NODEJS",
-    //     "collapsable": false,
-    //     "sidebarDepth": 1,
-    //     "children": [
-    //       "README.md",
-    //       "lerna.md",
-    //       "npm-and-yarn-commands.md",
-    //       "use-verdaccio-to-deploy-private-npm.md"
-    //     ]
-    //   }
-    // ],
+    "/backend/nodejs/": [
+        {
+            text: "NODEJS",
+            title: "NODEJS",
+            collapsable: false,
+            sidebarDepth: 1,
+            children: [""],
+        },
+    ],
     // "/backend/redis/": [
     //   {
     //     "text": "REDIS",
@@ -213,6 +206,60 @@ module.exports = {
         {
             text: "Qt",
             title: "Qt",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: [""],
+        },
+    ],
+    "/gospel/GCL/": [
+        {
+            text: "GCL",
+            title: "GCL",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: [""],
+        },
+    ],
+    "/gospel/newborn/": [
+        {
+            text: "初信造就",
+            title: "初信造就",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: ["", "god.md", "prayer.md", "bible.md"],
+        },
+    ],
+    "/gospel/basics/": [
+        {
+            text: "基要真理",
+            title: "基要真理",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: ["", "trinity"],
+        },
+    ],
+    "/gospel/practical/": [
+        {
+            text: "实践神学",
+            title: "实践神学",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: ["", "school"],
+        },
+    ],
+    "/gospel/evangelize/": [
+        {
+            text: "传扬福音",
+            title: "传扬福音",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: ["", "pioneer"],
+        },
+    ],
+    "/gospel/Q&A/": [
+        {
+            text: "Q&A",
+            title: "Q&A",
             collapsable: false,
             sidebarDepth: 2,
             children: [""],
@@ -465,21 +512,15 @@ module.exports = {
     //         children: ["README.md", "edit-file-with-workspaces.md"],
     //     },
     // ],
-    // "/tools/git/": [
-    //     {
-    //         text: "GIT",
-    //         title: "GIT",
-    //         collapsable: false,
-    //         sidebarDepth: 1,
-    //         children: [
-    //             "README.md",
-    //             "commit-message.md",
-    //             "gitignore.md",
-    //             "repo-tool.md",
-    //             "submodule.md",
-    //         ],
-    //     },
-    // ],
+    "/tools/git/": [
+        {
+            text: "GIT",
+            title: "GIT",
+            collapsable: false,
+            sidebarDepth: 1,
+            children: [""],
+        },
+    ],
     // "/tools/github/": [
     //     {
     //         text: "GITHUB",
