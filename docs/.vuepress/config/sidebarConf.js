@@ -166,15 +166,15 @@ module.exports = {
     //         children: ["README.md", "graphics.md"],
     //     },
     // ],
-    // "/frontend/css/": [
-    //     {
-    //         text: "CSS",
-    //         title: "CSS",
-    //         collapsable: false,
-    //         sidebarDepth: 1,
-    //         children: ["README.md", "@font-face.md", "anchor.md"],
-    //     },
-    // ],
+    "/frontend/css/": [
+        {
+            text: "CSS",
+            title: "CSS",
+            collapsable: false,
+            sidebarDepth: 1,
+            children: ["", "Sass使用教程.md", "tailwind快速入门.md"],
+        },
+    ],
     // "/frontend/d3js/": [
     //     {
     //         text: "D3JS",
@@ -199,7 +199,12 @@ module.exports = {
             title: "JAVASCRIPT",
             collapsable: false,
             sidebarDepth: 2,
-            children: ["", "object-destruction.md", "bind(this).md"],
+            children: [
+                "",
+                "An-introduction-to-HTML-CSS-JS.md",
+                "object-destruction.md",
+                "bind(this).md",
+            ],
         },
     ],
     "/frontend/Qt/": [
@@ -209,6 +214,19 @@ module.exports = {
             collapsable: false,
             sidebarDepth: 2,
             children: [""],
+        },
+    ],
+    "/frontend/electron/": [
+        {
+            text: "electron",
+            title: "electron",
+            collapsable: false,
+            sidebarDepth: 2,
+            children: [
+                "",
+                "electron-自定义窗口按钮.md",
+                "electron02-调用DLL.md",
+            ],
         },
     ],
     "/gospel/GCL/": [
