@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>electron02--调用DLL | 恩典小站</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="John的博客">
+    <meta name="author" content="johnzhu">
+    <meta name="keywords" content="vuepress文档 vuepress blog">
+    
+    <link rel="preload" href="/assets/css/0.styles.815791d6.css" as="style"><link rel="preload" href="/assets/js/app.704be62a.js" as="script"><link rel="preload" href="/assets/js/3.6108c106.js" as="script"><link rel="preload" href="/assets/js/4.a4ae37d8.js" as="script"><link rel="prefetch" href="/assets/js/10.5a230cf6.js"><link rel="prefetch" href="/assets/js/11.f6ffb972.js"><link rel="prefetch" href="/assets/js/12.90c4a1ee.js"><link rel="prefetch" href="/assets/js/13.8d868104.js"><link rel="prefetch" href="/assets/js/14.9048c1ac.js"><link rel="prefetch" href="/assets/js/15.47f9d76a.js"><link rel="prefetch" href="/assets/js/16.399d0126.js"><link rel="prefetch" href="/assets/js/17.bbebbd91.js"><link rel="prefetch" href="/assets/js/18.476eb98c.js"><link rel="prefetch" href="/assets/js/19.ce17cee7.js"><link rel="prefetch" href="/assets/js/20.0cfb7e25.js"><link rel="prefetch" href="/assets/js/21.19c5ea84.js"><link rel="prefetch" href="/assets/js/22.69294388.js"><link rel="prefetch" href="/assets/js/23.8d07fb18.js"><link rel="prefetch" href="/assets/js/24.69458aa4.js"><link rel="prefetch" href="/assets/js/25.05c4b584.js"><link rel="prefetch" href="/assets/js/26.b6dfc973.js"><link rel="prefetch" href="/assets/js/27.ace5ec70.js"><link rel="prefetch" href="/assets/js/28.ead21d5b.js"><link rel="prefetch" href="/assets/js/29.f9ac53b9.js"><link rel="prefetch" href="/assets/js/30.3e3102b3.js"><link rel="prefetch" href="/assets/js/31.3e935e31.js"><link rel="prefetch" href="/assets/js/32.b8e9952e.js"><link rel="prefetch" href="/assets/js/33.798964c4.js"><link rel="prefetch" href="/assets/js/34.fe109888.js"><link rel="prefetch" href="/assets/js/35.da270765.js"><link rel="prefetch" href="/assets/js/36.fbfe366f.js"><link rel="prefetch" href="/assets/js/37.0cb928aa.js"><link rel="prefetch" href="/assets/js/38.6ba4c831.js"><link rel="prefetch" href="/assets/js/39.40702247.js"><link rel="prefetch" href="/assets/js/40.9407546b.js"><link rel="prefetch" href="/assets/js/41.bbe2a12c.js"><link rel="prefetch" href="/assets/js/42.107ab7e8.js"><link rel="prefetch" href="/assets/js/43.646d1249.js"><link rel="prefetch" href="/assets/js/44.db954469.js"><link rel="prefetch" href="/assets/js/45.f92074d5.js"><link rel="prefetch" href="/assets/js/46.1208d162.js"><link rel="prefetch" href="/assets/js/47.fee0be65.js"><link rel="prefetch" href="/assets/js/48.a4be6cf9.js"><link rel="prefetch" href="/assets/js/5.01d32a05.js"><link rel="prefetch" href="/assets/js/6.154c1b54.js"><link rel="prefetch" href="/assets/js/7.e000eb8b.js"><link rel="prefetch" href="/assets/js/8.3dc011e9.js"><link rel="prefetch" href="/assets/js/9.71d5f3e0.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.3733af1e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.815791d6.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/apple-touch-icon.png" alt="恩典小站" class="logo"> <span class="site-name can-hide">恩典小站</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端" class="dropdown-title"><span class="title">前端</span> <span class="arrow down"></span></button> <button type="button" aria-label="前端" class="mobile-dropdown-title"><span class="title">前端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frontend/javascript/" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/styling/" class="nav-link">
+  Styling
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/electron/" class="nav-link router-link-active">
+  electron
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/Qt/" class="nav-link">
+  Qt
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="后端" class="dropdown-title"><span class="title">后端</span> <span class="arrow down"></span></button> <button type="button" aria-label="后端" class="mobile-dropdown-title"><span class="title">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/backend/nodejs/" class="nav-link">
+  Nodejs
+</a></li><li class="dropdown-item"><!----> <a href="/backend/mongodb/" class="nav-link">
+  MongoDB
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="开发工具" class="dropdown-title"><span class="title">开发工具</span> <span class="arrow down"></span></button> <button type="button" aria-label="开发工具" class="mobile-dropdown-title"><span class="title">开发工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link">
+  Git
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="福音" class="dropdown-title"><span class="title">福音</span> <span class="arrow down"></span></button> <button type="button" aria-label="福音" class="mobile-dropdown-title"><span class="title">福音</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/gospel/GCL/" class="nav-link">
+  GCL
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/newborn/" class="nav-link">
+  初信造就
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/basics/" class="nav-link">
+  基要真理
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/practical/" class="nav-link">
+  实践神学
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/evangelize/" class="nav-link">
+  传扬福音
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/Q&amp;A/" class="nav-link">
+  问答
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="链接🎉" class="dropdown-title"><span class="title">链接🎉</span> <span class="arrow down"></span></button> <button type="button" aria-label="链接🎉" class="mobile-dropdown-title"><span class="title">链接🎉</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/more/stack.html" class="nav-link">
+  技术
+</a></li><li class="dropdown-item"><!----> <a href="/more/faith.html" class="nav-link">
+  信仰
+</a></li><li class="dropdown-item"><!----> <a href="/more/others.html" class="nav-link">
+  其他
+</a></li><li class="dropdown-item"><!----> <a href="https://vuepress.vuejs.org/zh/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  VuePress 官网
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/about.html" class="nav-link">
+  关于
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frontend/electron/electron02_call_DLL.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  简体中文
+</a></li><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  English
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端" class="dropdown-title"><span class="title">前端</span> <span class="arrow down"></span></button> <button type="button" aria-label="前端" class="mobile-dropdown-title"><span class="title">前端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frontend/javascript/" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/styling/" class="nav-link">
+  Styling
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/electron/" class="nav-link router-link-active">
+  electron
+</a></li><li class="dropdown-item"><!----> <a href="/frontend/Qt/" class="nav-link">
+  Qt
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="后端" class="dropdown-title"><span class="title">后端</span> <span class="arrow down"></span></button> <button type="button" aria-label="后端" class="mobile-dropdown-title"><span class="title">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/backend/nodejs/" class="nav-link">
+  Nodejs
+</a></li><li class="dropdown-item"><!----> <a href="/backend/mongodb/" class="nav-link">
+  MongoDB
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="开发工具" class="dropdown-title"><span class="title">开发工具</span> <span class="arrow down"></span></button> <button type="button" aria-label="开发工具" class="mobile-dropdown-title"><span class="title">开发工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link">
+  Git
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="福音" class="dropdown-title"><span class="title">福音</span> <span class="arrow down"></span></button> <button type="button" aria-label="福音" class="mobile-dropdown-title"><span class="title">福音</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/gospel/GCL/" class="nav-link">
+  GCL
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/newborn/" class="nav-link">
+  初信造就
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/basics/" class="nav-link">
+  基要真理
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/practical/" class="nav-link">
+  实践神学
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/evangelize/" class="nav-link">
+  传扬福音
+</a></li><li class="dropdown-item"><!----> <a href="/gospel/Q&amp;A/" class="nav-link">
+  问答
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="链接🎉" class="dropdown-title"><span class="title">链接🎉</span> <span class="arrow down"></span></button> <button type="button" aria-label="链接🎉" class="mobile-dropdown-title"><span class="title">链接🎉</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/more/stack.html" class="nav-link">
+  技术
+</a></li><li class="dropdown-item"><!----> <a href="/more/faith.html" class="nav-link">
+  信仰
+</a></li><li class="dropdown-item"><!----> <a href="/more/others.html" class="nav-link">
+  其他
+</a></li><li class="dropdown-item"><!----> <a href="https://vuepress.vuejs.org/zh/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  VuePress 官网
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/about.html" class="nav-link">
+  关于
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frontend/electron/electron02_call_DLL.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  简体中文
+</a></li><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  English
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>electron</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/frontend/electron/" aria-current="page" class="sidebar-link">electron boilerplate</a></li><li><a href="/frontend/electron/electron_customize_window_button.html" class="sidebar-link">electron--自定义窗口按钮</a></li><li><a href="/frontend/electron/electron02_call_DLL.html" aria-current="page" class="active sidebar-link">electron02--调用DLL</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#引言" class="sidebar-link">引言</a></li><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#ffi" class="sidebar-link">ffi</a></li><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#安装-ffi" class="sidebar-link">安装 ffi</a></li><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#自己生成一个-dll" class="sidebar-link">自己生成一个 dll</a></li><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#可能出现的错误" class="sidebar-link">可能出现的错误</a></li><li class="sidebar-sub-header"><a href="/frontend/electron/electron02_call_DLL.html#references" class="sidebar-link">References</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="electron-学习-调用-dll"><a href="#electron-学习-调用-dll" class="header-anchor">#</a> electron 学习--调用 .dll</h1> <h2 id="引言"><a href="#引言" class="header-anchor">#</a> 引言</h2> <p>本文使用 node-ffi/ffi-napi 调用 C/C++编写的动态链接库(即 dll)，以实现一些硬件功能。</p> <h2 id="ffi"><a href="#ffi" class="header-anchor">#</a> ffi</h2> <blockquote><p>node-ffi 是一个用于使用纯 JavaScript 加载和调用动态库的 Node.js 插件。它可以用来在不编写任何 C++代码的情况下创建与本地 DLL 库的绑定。同时它负责处理跨 JavaScript 和 C 的类型转换。</p></blockquote> <ul><li>node-ffi 连接了 C 代码和 JS 代码, 通过内存共享来完成调用, 而内部又通过 ref,ref-array 和 ref-struct 来实现类型转换.</li></ul> <h2 id="安装-ffi"><a href="#安装-ffi" class="header-anchor">#</a> 安装 ffi</h2> <blockquote><p>ffi-napi 是作者(node-ffi-napi)根据 node-ffi 修改而发布到 npm 仓库的, 可以直接通过 npm 安装, 支持 node.js 12 和 electron 高版本.</p></blockquote> <ol><li><p>部署 node.js+electron 环境
+请自行参照相关教程</p></li> <li><p>安装 ffi-napi</p> <div class="language- extra-class"><pre class="language-text"><code>yarn add ffi-napi
+</code></pre></div></li> <li><p>使用 ffi
+在<code>main.js</code>中添加以下代码：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> ffi <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ffi-napi&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/**
+ * 先定义一个函数, 用来在窗口中显示字符
+ * @param {String} text
+ * @return {*} none
+ */</span>
+<span class="token keyword">function</span> <span class="token function">showText</span><span class="token punctuation">(</span><span class="token parameter">text</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Buffer</span><span class="token punctuation">(</span>text<span class="token punctuation">,</span> <span class="token string">&quot;ucs2&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">&quot;binary&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 通过ffi加载user32.dll</span>
+<span class="token keyword">const</span> myUser32 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ffi<span class="token punctuation">.</span>Library</span><span class="token punctuation">(</span><span class="token string">&quot;user32&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 声明这个dll中的一个函数</span>
+    <span class="token literal-property property">MessageBoxW</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;int32&quot;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token string">&quot;int32&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;int32&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 用json的格式罗列其返回类型和参数类型</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 调用user32.dll中的MessageBoxW()函数, 弹出一个对话框</span>
+<span class="token keyword">const</span> isOk <span class="token operator">=</span> myUser32<span class="token punctuation">.</span><span class="token function">MessageBoxW</span><span class="token punctuation">(</span>
+    <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token function">showText</span><span class="token punctuation">(</span><span class="token string">&quot;I am Node.JS!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">showText</span><span class="token punctuation">(</span><span class="token string">&quot;Hello, World!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token number">1</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>isOk<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>启动程序：</p> <div class="language- extra-class"><pre class="language-text"><code>yarn start
+</code></pre></div><p>启动成功！出现了弹窗：</p> <p><img src="data:image/png;base64,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" alt="01"></p></li></ol> <h2 id="自己生成一个-dll"><a href="#自己生成一个-dll" class="header-anchor">#</a> 自己生成一个 dll</h2> <ol start="0"><li>开始之前</li></ol> <ul><li><p>注意：</p> <blockquote><p>ffi 只接受纯 C 函数, 确切的说, 是按照 C 标准编译的函数</p></blockquote> <p>下面来说说具体的原因:</p> <p>在通过 ffi 引入 dll 的时候, 我们是这么声明的:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> myUser32 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ffi<span class="token punctuation">.</span>Library</span><span class="token punctuation">(</span><span class="token string">&quot;user32&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 声明这个dll中的一个函数</span>
+    <span class="token literal-property property">MessageBoxW</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;int32&quot;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token string">&quot;int32&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;int32&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 用json的格式罗列其返回类型和参数类型</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>在<code>user32.dll</code>中, 寻找一个名字叫<code>MessageBoxW</code>的函数.</p> <p>但是, C 和 C++的函数命名是不同的, 我指的是编译后的函数名字</p> <p>对于 C, 函数<code>int func(int n)</code>会被编译为类似<code>_func</code>这样的名字.</p> <p>对于 C++, 函数<code>int func(int n)</code>会被编译为类似<code>?func@@YAHH@Z</code>这样的名字.</p> <p>同样是 C++, 函数<code>int func(int double)</code>会被编译为类似<code>?func@@YAHN@Z</code>这样的名字(和上一个不同).</p> <p>名字中包含了较多信息, 比如:</p> <blockquote><p>参数的入栈方式
+返回值的类型
+参数的类型和数量</p></blockquote> <p>这是因为 C++有<code>函数重载</code>特性, 虽然函数命名是<code>func</code>, 但<code>int func(int n)</code>和<code>int func(int double)</code>完全是两个不同的函数, 编译器通过给它们赋予不同的名字来区分它们.ffi 在 dll 中查找函数名字的时候, <strong>是用 C 风格来查找的</strong>.</p> <ul><li>所以,如果你的函数使用 C++编译的, ffl 在这个 dll 中就找不到这个函数, 会出现错误<code>LINK 126</code>!</li></ul></li></ul> <ol><li><p>创建工程</p> <p>使用 VS 创建一个 C++ <strong>空项目</strong>即可. 项目名成以 myDLL 为例（当然, 你也可以直接创建动态链接库 DLL）:</p> <p><img src="/assets/img/2-2.9fbd880b.png" alt="02"></p></li> <li><p>函数声明
+创建一个 myAdd.h 头文件，并声明一个<code>funAdd</code>函数：</p> <div class="language-c++ extra-class"><pre class="language-text"><code>extern &quot;C&quot;
+{
+    __declspec(dllexport) int funAdd(int a, int b);
+}
+</code></pre></div><p><code>extern &quot;C&quot;</code>的含义:</p> <blockquote><p>被 extern &quot;C&quot; 修饰的变量和函数是按照 C 语言方式编译和链接的</p></blockquote> <p><code>__declspec(dllexport)</code>的含义:</p> <blockquote><p>__declspec(dllexport)用于 Windows 中的动态库中，声明导出函数、类、对象等供外面调用，省略给出.def 文件。即将函数、类等声明为导出函数，供其它程序调用，作为动态库的对外接口函数、类等。</p></blockquote></li> <li><p>函数定义</p> <p>创建一个 myAdd.cpp 源文件，定义一个<code>funAdd</code>函数：</p> <div class="language-c++ extra-class"><pre class="language-text"><code>#include &quot;myAdd.h&quot;
+int funAdd(int a, int b)
+{
+return (a + b);
+}
+</code></pre></div><p>创建完 myAdd.h 和 myAdd.cpp 如下图所示：</p> <p><img src="/assets/img/2-4.c2a4abd2.png" alt="04"></p></li> <li><p>修改配置类型为动态库.dll
+在项目配置中, 选择生成动态库.dll(确保你配置了 Debug 和 Release, 同时确保你在 x64 环境下生成):</p> <p><img src="/assets/img/2-3.de4797df.png" alt="03"></p></li> <li><p>生成 dll
+右键项目选择生成即可, 生成的 myDLL.dll 位于项目目录下的 x64/Debug 中(根据你项目的配置去找, x64 或 x86, Debug 或 Release)。</p></li> <li><p>测试 dll
+将 myDLL.dll 拷贝至你的 electron 项目的根目录下的 dll 文件夹内
+在<code>main.js</code>中添加如下代码:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> ffi <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ffi-napi&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 如果前面已经定义过ffi, 就注释掉这一行</span>
+<span class="token comment">// myDLL.dll</span>
+<span class="token keyword">const</span> myDLL <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ffi<span class="token punctuation">.</span>Library</span><span class="token punctuation">(</span><span class="token string">&quot;/myDLL&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 声明这个dll中的一个函数</span>
+    <span class="token literal-property property">funAdd</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;int&quot;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token string">&quot;int&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;int&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 用json的格式罗列其返回类型和参数类型</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 调用函数, 参数1和2, 将返回值直接打印出来, 预计为3</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> myDLL<span class="token punctuation">.</span><span class="token function">funAdd</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">the result of 1 + 2 is: </span><span class="token template-punctuation string">`</span></span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>启动程序：</p> <div class="language- extra-class"><pre class="language-text"><code>yarn start
+</code></pre></div><p>启动成功！shell 里打印出了相应的结果：</p> <p><img src="/assets/img/2-5.442b2215.png" alt="05"></p></li></ol> <ul><li><p>上面代码中，<code>ffi.Library</code>里第二个参数是一个 Json 结构，key 为方法名，value 为一个数组，数组的第一个参数是<strong>返回值类型</strong>，第二个参数是包含所有<strong>传参类型</strong>的子数组，如：如果返回值是空的话，那数组第一个参数应该是 void。如果返回值或者参数类型不知道是什么类型就写 void*。要使用 ffi 中的类型表示 C/C++语言中的类型，对照表如下：</p> <blockquote><p>基本类型
+int8--Signed 8-bit Integer
+uint8--Unsigned 8-bit Integer
+int16--Signed 16-bit Integer
+uint16--Unsigned 16-bit Integer
+int32--Signed 32-bit Integer
+uint32--Unsigned 32-bit Integer
+int64--Signed 64-bit Integer
+uint64--Unsigned 64-bit Integer
+float--Single Precision Floating Point Number (float)
+double--Double Precision Floating Point Number (double)
+pointer--Pointer Type
+string--Null-Terminated String (char *)
+常见的 C 语言类型
+byte--unsigned char
+char--char
+uchar--unsigned char
+short--short
+ushort--unsigned short
+int--int
+uint--unsigned int
+long--long
+ulong--unsigned long
+longlong--long
+ulonglong--unsigned long long
+size_t--platform-dependent, usually pointer size</p></blockquote> <p>如果是指针类型，可以引入<code>ref-napi</code>和<code>ref-array</code>模块来表示</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> ref <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ref-napi&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> refArray <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ref-array&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> intPtr <span class="token operator">=</span> ref<span class="token punctuation">.</span><span class="token function">refType</span><span class="token punctuation">(</span><span class="token string">&quot;int&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//int*类型</span>
+<span class="token keyword">var</span> charPtr <span class="token operator">=</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">;</span> <span class="token comment">//char*可以用string表示</span>
+
+<span class="token comment">//如果是个字符数组</span>
+<span class="token keyword">var</span> refArray <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ref-array&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> charPtrPtr <span class="token operator">=</span> <span class="token function">refArray</span><span class="token punctuation">(</span>ref<span class="token punctuation">.</span>types<span class="token punctuation">.</span>char<span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//50个大小的数组</span>
+</code></pre></div><p>假如参数或者返回值是一个结构体，那就需要借助<code>ref-struct</code>模块来表示</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> ref <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ref-napi&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> <span class="token constant">FFI</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ffi-napi&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> Struct <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;ref-struct&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> TimeVal <span class="token operator">=</span> <span class="token function">Struct</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">tv_sec</span><span class="token operator">:</span> <span class="token string">&quot;long&quot;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">tv_usec</span><span class="token operator">:</span> <span class="token string">&quot;long&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TimeValPtr <span class="token operator">=</span> ref<span class="token punctuation">.</span><span class="token function">refType</span><span class="token punctuation">(</span>TimeVal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> lib <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FFI<span class="token punctuation">.</span>Library</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">gettimeofday</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;int&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>TimeValPtr<span class="token punctuation">,</span> <span class="token string">&quot;pointer&quot;</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> tv <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TimeVal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+lib<span class="token punctuation">.</span><span class="token function">gettimeofday</span><span class="token punctuation">(</span>tv<span class="token punctuation">.</span><span class="token function">ref</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Seconds since epoch: &quot;</span> <span class="token operator">+</span> tv<span class="token punctuation">.</span>tv_sec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p><strong>注：更多 ref 插件的方法详见 ref 文档： https://tootallnate.github.io/ref/</strong></p> <h2 id="可能出现的错误"><a href="#可能出现的错误" class="header-anchor">#</a> 可能出现的错误</h2> <blockquote><p>错误 1：LINK 126</p></blockquote> <p>这个错误, 意味者 electron 无法使用你的 dll.</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> myDLL <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ffi<span class="token punctuation">.</span>Library</span><span class="token punctuation">(</span><span class="token string">'/myDLL'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+</code></pre></div><p>在上面这行代码中，<code>ffi.Library</code>的第一个参数, 不光指定了 dll 的名字, 还指定了 dll 的路径.
+出现 LINK 126 有两个常见原因:</p> <ol><li>没有这个<strong>目录</strong>, 或这个目录下没有 <code>myDLL.dll</code></li> <li><code>myDLL.dll</code> 还<strong>依赖了其他</strong>的一些 dll, 但是 electron 无法找到这个 dll.</li></ol> <blockquote><p>错误 2：LINK 127</p></blockquote> <p>出现 LINK 127 的可能原因:</p> <ol><li>electron 找到了你的 dll, 但是在 dll 中<strong>找不到</strong>你声名的函数(funAdd)。这通常是由于<strong>函数名字错误</strong>, 或者是<strong>返回值类型</strong>/<strong>参数的个数</strong>及<strong>类型</strong>不一致导致的.</li></ol></li></ul> <h2 id="references"><a href="#references" class="header-anchor">#</a> References</h2> <ol><li>https://www.cnblogs.com/silenzio/p/11606389.html</li> <li>https://segmentfault.com/a/1190000019402908?utm_source=tag-newest</li></ol></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间:</span> <span class="time">2023/2/9 22:20:49</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/frontend/electron/electron_customize_window_button.html" class="prev">
+        electron--自定义窗口按钮
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.704be62a.js" defer></script><script src="/assets/js/3.6108c106.js" defer></script><script src="/assets/js/4.a4ae37d8.js" defer></script>
+  </body>
+</html>
