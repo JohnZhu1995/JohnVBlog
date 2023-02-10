@@ -172,7 +172,7 @@ module.exports = {
             title: "CSS",
             collapsable: false,
             sidebarDepth: 1,
-            children: ["", "Sass使用教程.md", "tailwind快速入门.md"],
+            children: ["", "Sass_tutorial.md", "Tailwind_tutorial.md"],
         },
     ],
     // "/frontend/d3js/": [
@@ -224,8 +224,8 @@ module.exports = {
             sidebarDepth: 2,
             children: [
                 "",
-                "electron-自定义窗口按钮.md",
-                "electron02-调用DLL.md",
+                "electron_customize_window_button.md",
+                "electron02_call_DLL.md",
             ],
         },
     ],

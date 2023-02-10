@@ -228,9 +228,9 @@ async function handleTitle(event, type) {
 
 ## 实现效果
 
-![01](1.png)
+![01](./pic/1-1.png)
 
-![02](2.png)
+![02](./pic/1-2.png)
 
 ### Reference
 

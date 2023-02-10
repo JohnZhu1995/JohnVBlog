@@ -158,7 +158,7 @@ npm run serve
 ```
 
 效果展示：
-![02](./tailwind%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/2.png)
+![01](./pic/2-1.png)
 
 ### 后记
 
